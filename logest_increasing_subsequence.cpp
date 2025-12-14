@@ -4,23 +4,35 @@
 
 using namespace std;
 
-int ans = 0;
-int last = -1;
+int lengthOfLIS(vector<int> &nums)
+{
 
-int lengthOfLIS(vector<int>& nums) {
-        vector<int> dp(nums.size());
-        dp[0] = 1;
+    vector<int> dp(nums.size());
 
-        for(int i = 1; i < nums.size(); i++){
-            int best = 1;
-            for(int j = i-1; j >= 0; j--){
-                if(nums[i] > nums[j]){
-                    best = max(dp[i-1]+1, best);
-                }
+    dp[0] = 1;
+
+    for (int i = 1; i < nums.size(); i++)
+    {
+
+        int best = 1;
+
+        for (int j = i - 1; j >= 0; j--)
+        {
+
+            if (nums[i] > nums[j])
+            {
+
+                best = max(dp[j] + 1, best);
             }
-
-            dp[i] = best;
         }
 
-        return dp[nums.size() - 1];
+        dp[i] = best;
+    }
+
+    int best = 0;
+
+    for (int i = 0; i < dp.size(); i++)
+        best = max(dp[i], best);
+
+    return best;
 }
