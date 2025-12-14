@@ -7,30 +7,20 @@ using namespace std;
 int ans = 0;
 int last = -1;
 
-int solve(vi& a, int x){
-    if(x == 0){
-        last = 0;
-        return 1;
-    }
+int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp(nums.size());
+        dp[0] = 1;
 
-    
-    ans += solve(a, x-1);
+        for(int i = 1; i < nums.size(); i++){
+            int best = 1;
+            for(int j = i-1; j >= 0; j--){
+                if(nums[i] > nums[j]){
+                    best = max(dp[i-1]+1, best);
+                }
+            }
 
-    for(int i = x; i > last; i-=1){
-        if(a[i] > a[last]){
-            ans += 1;
-            break;
+            dp[i] = best;
         }
-    }
 
-}
-
-int main(){
-    vector<int> a = {
-        0,1,0,3,2,3
-    };
-
-    solve(a, a.size() - 1);
-
-    return 0;
+        return dp[nums.size() - 1];
 }
