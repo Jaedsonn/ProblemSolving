@@ -4,41 +4,37 @@
 
 using namespace std;
 
-int solve(vl& a, vl& b, ll n){
-    vl dp(n+1, 0);
-    dp[0] = max(a[0], b[0]);
+int solve(vl &pales, vl &large, ll n)
+{
+    vl dpp(n + 1, 0);
+    vl dpl(n + 1, 0);
+    
+    ll maxp = pales[0];
+    ll maxl = large[0];
 
-    bool choose = a[0] > b[0] ? true : false;
+    dpp[0] = maxp;
+    dpl[0] = maxl;
 
+    for(int i = 1; i < n; i+=1){
+        dpp[i] = max(dpp[i - 1], dpl[i - 1] + pales[i]);
 
-    for(int i = 1; i < n; i++){
-        if(choose){
-            if(dp[i - 1] + b[i] < b[i - 1] + a[i]){
-                dp[i - 1] = b[i - 1];
-                dp[i] = dp[i - 1] + a[i];
-            } else{
-                dp[i] = dp[ i - 1] + b[i];
-                choose = false;
-            }
-        } else{
-            if(dp[i - 1] + a[i] < a[i - 1] + b[i]){
-                dp[i - 1] = a[i - 1];
-                dp[i] = dp[i - 1] + b[i];
-            } else{
-                dp[i] = dp[ i - 1] + a[i];
-                choose = true;
-            }
-        }
+        dpl[i] = max(dpl[i - 1], dpp[i - 1] + large[i]);
     }
 
-    return dp[n - 1];
+    return max(dpp[n - 1], dpl[n - 1]);
 }
 
-int main(){
-    vl a = {1, 2, 3, 4, 5};
-    vl b = {1, 2, 3, 4, 5};
+int main()
+{
+    int n;
+    cin >> n;
+    vl a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    vl b(n);
+    for (int i = 0; i < n; i++) cin >> b[i];
 
-    int q = solve(a, b, 5);
+    int q = solve(a, b, n);
+    cout << q << endl;
 
     return 0;
 }
