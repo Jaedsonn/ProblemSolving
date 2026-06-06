@@ -1,46 +1,50 @@
 #include <bits/stdc++.h>
+#define ll long long
 
 using namespace std;
 
-vector<int> values(1e5, -1);
+bool ok(ll k, ll c, ll m, ll x) {
+    ll remaining_people = (c - k) + (m - k) + x;
+    return remaining_people >= k;
+}
 
-int coinChange(vector<int> &coins, int amount)
-{
+void solve() {
+    ll c, m, x;
+    cin >> c >> m >> x;
 
-    int best = 1e5;
-    if (amount < 0)
-        return -1;
+    ll low = 0;
+    ll high = min(c, m);
+    ll ans = 0;
 
-    if (amount == 0)
-        return 0;
+    while (low <= high) {
+        ll mid = low + (high - low) / 2;
 
-    if (values[amount] != -1)
-        return values[amount];
-
-    for (auto c : coins)
-    {
-        int res = coinChange(coins, amount - c);
-
-        if (res != -1)
-        {
-            best = min(best, res + 1);
+        if (ok(mid, c, m, 
+        
+        
+        
+        
+        
+        )) {
+            ans = mid;       
+            low = mid + 1;   
+        } else {
+            high = mid - 1;  
         }
     }
 
-    values[amount] = (best == 1e5) ? -1 : best;
-
-    return values[amount];
+    cout << ans << endl;
 }
 
-int main()
-{
-    vector<int> coins = {2};
-    int amount = 3;
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
-    sort(coins.begin(), coins.end());
+    int q;
+    cin >> q;
+    while (q--) {
+        solve();
+    }
 
-    int best = coinChange(coins, amount);
-
-    cout << best << endl;
     return 0;
 }

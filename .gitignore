@@ -1,4 +1,0 @@
-#tracking only .cpp files
-
-*
-!*.cpp
